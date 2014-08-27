@@ -10,7 +10,7 @@ var server=http.createServer(function(req,res){
             "Content-type":"text-html;charset=utf-8"
         });
         res.end([
-            '<form method="POST" action="/submitInfo">'
+            '<form>'
             ,'<label for="dotId">dotId: </label>'
             ,'<input type="text" name="dotId"/>'
             ,'<label for="dotDesc">dotDesc: </label>'
@@ -21,17 +21,21 @@ var server=http.createServer(function(req,res){
             ,'</form>'
             ,'<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>'
             ,'<script type="text/javascript">'
-            ,'$("#submit").click(function(){' +
-                '$.ajax({' +
-                '       type:"POST",' +
-                '       url:/submitInfo,' +
-                '       async:false,' +
-                '       data:{dotId:$("input[name=\'dotId\']").val(),dotDesc:$("input[name=\'dotDesc\']").val(),time:$("input[name=\'time\']").val()},' +
-                '       dataType:"json",'+
-                '       success:function(data){' +
-                '           console.log(data);' +
-                '       }' +
-                '})' +
+            ,'$(function(){'+
+                'console.log(2);'+
+                /*'$("#submit").click(function(){' +
+                    'console.log(2);'+
+                    '$.ajax({' +
+                    '       type:"POST",' +
+                    '       url:http://localhost:8001/submitInfo,' +
+                    '       async:false,' +
+                    '       data:{dotId:$("input[name=\'dotId\']").val(),dotDesc:$("input[name=\'dotDesc\']").val(),time:$("input[name=\'time\']").val()},' +
+                    '       dataType:"json",'+
+                    '       success:function(data){' +
+                    '           console.log(data);' +
+                    '       }' +
+                    '})' +
+                '})'+*/
             '})'
         ].join(''));
     }else if("/submitInfo"==req.url && 'POST'==req.method){
