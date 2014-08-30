@@ -2,8 +2,10 @@
  * Created by ruby on 2014/7/31.
  */
 var http=require("http");
-var eventEmitter=require('events').EventEmitter;
 var queryString=require("querystring");
+var mongodb=require("mongodb");
+var mongoClient=mongodb.MongoClient;
+var Db=mongodb.Db;
 var server=http.createServer(function(req,res){
     if("/"==req.url){
         res.writeHead(200,{
@@ -20,22 +22,10 @@ var server=http.createServer(function(req,res){
             ,'<input type="submit" value="submit" id="submit"/>'
             ,'</form>'
             ,'<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>'
-            ,'<script type="text/javascript">'
-            ,'$("#submit").click(function(){' +
-                '$.ajax({' +
-                '       type:"POST",' +
-                '       url:/submitInfo,' +
-                '       async:false,' +
-                '       data:{dotId:$("input[name=\'dotId\']").val(),dotDesc:$("input[name=\'dotDesc\']").val(),time:$("input[name=\'time\']").val()},' +
-                '       dataType:"json",'+
-                '       success:function(data){' +
-                '           console.log(data);' +
-                '       }' +
-                '})' +
-            '})'
         ].join(''));
     }else if("/submitInfo"==req.url && 'POST'==req.method){
         var postData='';
+        req.setEncoding("utf-8");
         req.on('data',function(data){
             postData=data;
         });
@@ -43,18 +33,46 @@ var server=http.createServer(function(req,res){
             res.writeHead(200,{
                 "Content-type":"text-html;charset=utf-8"
             });
-            res.write('You submitted this: '+postData);
+            res.write('You submitted this: '+postData+", the data you send will be sent to mongoDB");
+
+            mongoClient.connect("mongodb://localhost:27017/dots",function(err,db){
+                if(err){
+                   console.log(err);
+                   var db=new Db("dots","localhost:27017");
+                    db.open(function(err,db){
+                      db.createCollection("dotInfo",function(err,collection){
+                          collection.insert(postData,function(err,doc){
+                              collection.find().toArray(function(err,result){
+                                  console.log(result);
+                              })
+                          })
+                      })
+                    })
+                }else{
+                    db.createCollection("dotInfo",function(err,collection){
+                        if(!err){
+                            /*change the time to the current time*/
+                            var dataToInsert=queryString.parse(postData);
+                            dataToInsert.time=new Date();
+                            collection.insert(dataToInsert,function(err,doc){
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                    collection.find().toArray(function(err,result){
+                                        console.log("This is the data you inserted to the mongodb: "+result);
+                                    })
+                                }
+
+                            })
+                        }
+                    })
+                }
+            })
             res.end();
         });
 
     }
 }).listen(8001);
-/*
-server.on("connection",function(socket){
-    console.log("hello");
-})
-server.listen(8001);
-*/
 
 
 
