@@ -34,7 +34,6 @@ var server=http.createServer(function(req,res){
                 "Content-type":"text-html;charset=utf-8"
             });
             res.write('You submitted this: '+postData+", the data you send will be sent to mongoDB");
-
             mongoClient.connect("mongodb://localhost:27017/dots",function(err,db){
                 if(err){
                    console.log(err);
@@ -49,7 +48,7 @@ var server=http.createServer(function(req,res){
                                     console.log(err);
                                 }else{
                                     collection.find().toArray(function(err,result){
-                                        console.log("This is the data you inserted to the mongodb: "+result);
+                                        res.write("This is the data you inserted to the mongodb: "+result);
                                     })
                                 }
 
@@ -60,6 +59,7 @@ var server=http.createServer(function(req,res){
             })
             res.end();
         });
+    }else if(req.url=="/applyDot"){
 
     }
 }).listen(8001);
