@@ -38,16 +38,6 @@ var server=http.createServer(function(req,res){
             mongoClient.connect("mongodb://localhost:27017/dots",function(err,db){
                 if(err){
                    console.log(err);
-                   var db=new Db("dots","localhost:27017");
-                    db.open(function(err,db){
-                      db.createCollection("dotInfo",function(err,collection){
-                          collection.insert(postData,function(err,doc){
-                              collection.find().toArray(function(err,result){
-                                  console.log(result);
-                              })
-                          })
-                      })
-                    })
                 }else{
                     db.createCollection("dotInfo",function(err,collection){
                         if(!err){
