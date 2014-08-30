@@ -3,24 +3,24 @@ demo_node
 
 front end watching
 
-###项目概述
+##项目概述
 此方案为网站的可用性测试及用户体验提供支持。
 
-###项目描述
+##项目描述
 当新用户访问时，前端生成带有特殊标识的cookie，用来识别该用户的本次访问。当浏览器关闭时，该cookie自动失效。该cookie与后端cookie无任何关联。
 
-###名词释义
+##名词释义
 DO: (dot operation)单位时间内，埋点被点击的次数（此处的点击为有效点击，即经过前端高频率点击过滤）。
 		算法：得出在指定时间内，records的记录条数。
 UO: (user operation)单位时间内，埋点被多少用户点击。不同的cookie即为不同的用户。
 		算法：得出在指定时间内，records的记录条数，过滤过相同cookie的情况。
 
-###项目设置
+##项目设置
 
-##数据设置
+###数据设置
 所有的数据存储在mongoDB中的watching数据库，埋点采用自动注册方式，即当记录埋点被操作信息时，自动检测，存在则记录，不存在则先注册再记录。
 
-##数据库描述
+###数据库描述
 watching(db):dots(collection),
 > * dots字段描述：
 如：
@@ -52,7 +52,7 @@ watching(db):dots(collection),
 用户ID：userId[string],以当前时间随机生成唯一数。
 点击时间：time[string]
 
-##前端对接
+###前端对接
 
 
 
