@@ -42,9 +42,9 @@ watching(db):dots(collection),
 	dotId:"111",
 	records:{
 		"2014-8-10":{
-									time:"2014-8-10 17:00",
-									user:"cookie",
-								}
+			time:"2014-8-10 17:00",
+			user:"cookie",
+		}
 	}
 }
 ```
