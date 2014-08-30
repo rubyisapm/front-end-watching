@@ -1,4 +1,4 @@
-demo_node
+front-end-watching
 =========
 
 front end watching
