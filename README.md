@@ -21,7 +21,7 @@ front end watching
 所有的数据存储在mongoDB中的watching数据库，埋点采用自动注册方式，即当记录埋点被操作信息时，自动检测，存在则记录，不存在则先注册再记录。
 
 ###数据库描述
-watching(db):dots(collection),
+watching(db):dots(collection),records(collection);
 > * dots字段描述：
 如：
 ```javascript

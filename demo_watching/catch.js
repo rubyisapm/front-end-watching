@@ -23,6 +23,41 @@ var server=http.createServer(function(req,res){
             ,'</form>'
             ,'<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>'
         ].join(''));
+    }else if("/applyForDot"==req.url && 'POST'==req.method){
+        var postData='';
+        req.setEncoding='';
+        req.setEncoding('uft-8');
+        req.on('data',function(data){
+            postData+=data;
+        })
+        req.on('end',function(){
+            res.writeHead(200,{
+                'Content-type':'text-html;charset=uft-8'
+            });
+            res.write('You submitted this: '+postData+', the data you send will be sent to mongoDB');
+            mongoClient.connect('mongodb://localhost:27017/watching',function(err,db){
+                db.createCollection('dots',function(err,collection){
+                    if(err){
+                        console.log(err);
+                    }else{
+                        var dataToInsert=queryString.parse(postData);
+                        collection.insert(dataToInsert,function(err,doc){
+                            if(err){
+                               console.log(err);
+                            }else{
+                                collection.find().toArray(function(err,result){
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                        console.log(result);
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            })
+        })
     }else if("/submitInfo"==req.url && 'POST'==req.method){
         var postData='';
         req.setEncoding("utf-8");
@@ -59,9 +94,9 @@ var server=http.createServer(function(req,res){
             })
             res.end();
         });
-    }else if(req.url=="/applyDot"){
+    }/*else if(req.url=="/applyDot"){
 
-    }
+    }*/
 }).listen(8001);
 
 
