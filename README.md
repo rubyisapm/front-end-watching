@@ -28,7 +28,8 @@ watching(db):dots(collection),records(collection);
 {
 	dotId:"111",
 	pageId:"xymain001",
-	elementId:"submitInfo"
+	elementId:"submitInfo",
+	dotDesc:"decription of the dot"
 }
 ```
 埋点ID：dotId[string],当该埋点首次加入时自动生成。
@@ -40,7 +41,7 @@ watching(db):dots(collection),records(collection);
 ```javascript
 {
 	dotId:"111",
-	records:{
+	operations:{
 		"2014-8-10":{
 			time:"2014-8-10 17:00",
 			user:"cookie",

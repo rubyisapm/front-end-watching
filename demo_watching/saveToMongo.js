@@ -19,19 +19,20 @@ var db=new Db("dot",new Server("localhost",27017));
         })
     })
 });*/
-MongoClient.connect("mongodb://localhost:27017/dots",function(err,db){
+MongoClient.connect("mongodb://localhost:27017/watching",function(err,db){
     /*db.dropDatabase(function(err,result){
         console.log(result);
     })*/
-    db.collection("test",function(err,collection){
-        collection.insert({},function(err,doc){
+    db.collection("records",function(err,collection){
+     /*collection.insert({},function(err,doc){
             collection.find().toArray(function(err,result){
                 console.log(result);
             })
-        })
-     /*  collection.update({name:"ruby"},{$set:{time:"changed"}},function(err,result){
-            console.log(result);
         })*/
+        var dotId="db24";
+       collection.update({dotId:dotId},{$push:{operations:{time:"changed"}}},function(err,result){
+            console.log(result);
+        })
     })
 })
 
