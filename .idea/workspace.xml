@@ -26,18 +26,8 @@
       <file leaf-file-name="catch.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/demo_watching/catch.js">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
             <state vertical-scroll-proportion="1.2215909" vertical-offset="0" max-vertical-offset="3160">
               <caret line="43" column="49" selection-start-line="43" selection-start-column="49" selection-end-line="43" selection-end-column="49" />
-=======
-<<<<<<< HEAD
-            <state vertical-scroll-proportion="0.62068963" vertical-offset="0" max-vertical-offset="666">
-              <caret line="15" column="45" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="45" />
-=======
-            <state vertical-scroll-proportion="1.7039106" vertical-offset="0" max-vertical-offset="3160">
-              <caret line="61" column="69" selection-start-line="61" selection-start-column="69" selection-end-line="61" selection-end-column="69" />
->>>>>>> b84409d92ef93d170fa59fa0396a824ae6db8444
->>>>>>> 6cf6bf0945f0d6fe642036ed9378e91b05579046
               <folding />
             </state>
           </provider>
@@ -46,17 +36,9 @@
       <file leaf-file-name="saveToMongo.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo_watching/saveToMongo.js">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
             <state vertical-scroll-proportion="0.0" vertical-offset="640" max-vertical-offset="920">
-=======
-<<<<<<< HEAD
             <state vertical-scroll-proportion="0.0" vertical-offset="141" max-vertical-offset="612">
               <caret line="15" column="36" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
-=======
-            <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="880">
->>>>>>> 6cf6bf0945f0d6fe642036ed9378e91b05579046
-              <caret line="32" column="7" selection-start-line="32" selection-start-column="7" selection-end-line="34" selection-end-column="10" />
->>>>>>> b84409d92ef93d170fa59fa0396a824ae6db8444
               <folding />
             </state>
           </provider>
@@ -65,17 +47,9 @@
       <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
             <state vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="1300">
-=======
-<<<<<<< HEAD
             <state vertical-scroll-proportion="0.0" vertical-offset="216" max-vertical-offset="450">
               <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
-=======
-            <state vertical-scroll-proportion="-11.84" vertical-offset="324" max-vertical-offset="1300">
->>>>>>> 6cf6bf0945f0d6fe642036ed9378e91b05579046
-              <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
->>>>>>> b84409d92ef93d170fa59fa0396a824ae6db8444
               <folding />
             </state>
           </provider>
@@ -95,30 +69,18 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/node_modules/some-library/package.json" />
         <option value="$PROJECT_DIR$/path.js" />
-<<<<<<< HEAD
-=======
         <option value="$PROJECT_DIR$/assist_site/request_post.html" />
         <option value="$PROJECT_DIR$/assist_site/html/request_post.html" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/demo_watching/saveToMongo.js" />
->>>>>>> b84409d92ef93d170fa59fa0396a824ae6db8444
-        <option value="$PROJECT_DIR$/demo_watching/catch.js" />
         <option value="$PROJECT_DIR$/demo_watching/saveToMongo.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-<<<<<<< HEAD
     <option name="x" value="460" />
     <option name="y" value="87" />
     <option name="width" value="745" />
     <option name="height" value="639" />
-=======
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1612" />
-    <option name="height" value="876" />
->>>>>>> b84409d92ef93d170fa59fa0396a824ae6db8444
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
