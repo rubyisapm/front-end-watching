@@ -1,25 +1,32 @@
 /**
- * Created by ruby on 2014/7/31.
+ * Created by ruby on 2014/9/14.
  */
-var http=require("http");
+var express=require("express");
+var app=express();
 var queryString=require("querystring");
 var mongodb=require("mongodb");
 var mongoClient=mongodb.MongoClient;
 var Db=mongodb.Db;
 var crypto=require('crypto');
-
-var server=http.createServer(function(req,res){
-    if("/applyForDot"==req.url && 'POST'==req.method){
-        var postData='';
-        /*req.setEncoding('uft8');*/
+var ejs=require("ejs");
+ejs.open = '{{';
+ejs.close = '}}';
+app.set("view engine","ejs");
+app.use('/images',express.static(__dirname+'/images'));
+app.use('/styles',express.static(__dirname+'/styles'));
+app.use('/scripts',express.static(__dirname+'/scripts'));
+app.get("/apply",function(req,res){
+    res.render("apply.ejs",{options:["首页","产品介绍页","帮助中心"]});
+});
+app.get("/submit",function(req,res){
+    res.render('submit.ejs');
+});
+app.post("/applyForDot",function(req,res){
+        var postData="";
         req.on('data',function(data){
             postData+=data;
         })
         req.on('end',function(){
-            res.writeHead(200,{
-                'Content-type':'text-html;charset=uft-8'
-            });
-            res.write('You submitted this: '+postData+', the data you send will be sent to mongoDB.<br/>');
             mongoClient.connect('mongodb://localhost:27017/watching',function(err,db){
                 db.collection('dots',function(err,collection){
                     if(!err){
@@ -28,33 +35,35 @@ var server=http.createServer(function(req,res){
                         crypto.randomBytes(2, function(ex, buf) {
                             token = buf.toString('hex');
                             dataToInsert.dotId=token;
-                            collection.find({eleId:dataToInsert.eleId,pageId:dataToInsert.pageId}).toArray(function(err,results){
+                            collection.find({elementId:dataToInsert.elementId,pageId:dataToInsert.pageId}).toArray(function(err,results){
                                 if (!err) {
                                     if (!results.length) {
                                         collection.insert(dataToInsert, function (err, doc) {
                                             if (!err) {
-                                                res.write('The data you send was inserted to Dots.<br/>');
+                                                res.send('The data you send was inserted to Dots.<br/>');
                                             } else {
-                                                res.write('This is the error of "insert data to Dots".<br/>');
+                                                res.send('This is the error of "insert data to Dots".<br/>');
                                             }
                                         })
                                     } else {
-                                        res.write('This element has dotId yet, the dotId is: ' + results[0].dotId+'.<br/>');
+                                        res.send('This element has dotId yet, the dotId is: ' + results[0].dotId+'.<br/>');
                                     }
                                 } else {
-                                    res.write('This is the error of "find data from the dots".<br/>');
+                                    res.send('This is the error of "find data from the dots".<br/>');
                                 }
                             })
                         });
 
                     }else{
-                        res.write('Can\'t connect to the Dots.');
+                        res.send('Can\'t connect to the Dots.');
                     }
 
                 })
             })
-        })
-    }else if("/submitInfo"==req.url && 'POST'==req.method){
+        });
+
+});
+app.post("/submitInfo",function(req,res){
         var postData='';
         req.setEncoding("utf8");
         req.on('data',function(data){
@@ -67,7 +76,7 @@ var server=http.createServer(function(req,res){
             res.write('You submitted this: '+postData+", the data you send will be sent to mongoDB");
             mongoClient.connect("mongodb://localhost:27017/watching",function(err,db){
                 if(err){
-                   console.log(err);
+                    console.log(err);
                 }else{
                     db.collection("records",function(err,collection){
                         if(!err){
@@ -108,9 +117,5 @@ var server=http.createServer(function(req,res){
             })
             res.end();
         });
-    }
-}).listen(3000);
-
-
-
-
+})
+app.listen("3000");
