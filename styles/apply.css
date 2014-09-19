@@ -1,0 +1,57 @@
+body,div,li,ul,p,input,b,select{
+    margin:0;
+    padding:0
+}
+ul,li{
+    list-style:none;
+    list-style-position: outside;
+}
+.w100{
+    width:100px
+}
+.w200{
+    width:200px
+}
+.w300{
+    width:300px
+}
+.w400{
+    width:400px
+}
+body{
+    background:url(/images/background.jpg) 0 0 no-repeat;
+    font-family: "microsoft yahei";
+}
+input{
+    border:1px solid #ccc;
+    height:24px;
+
+}
+select{
+    height:24px;
+    border:1px solid #ccc
+}
+.formList li{
+    padding-left:105px;
+    margin-bottom:20px;
+}
+.formList li label{
+    display:block;
+    float:left;
+    width:100px;
+    text-align:right;
+    margin-left:-105px;
+}
+#wrap{
+    margin:260px 0 0 100px;
+}
+#submit{
+    width:80px;
+    height:30px;
+    background-color:#6a9bff;
+    cursor:pointer;
+    border:1px solid #0054ff
+}
+#note{
+    color:green
+}

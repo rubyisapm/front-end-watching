@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>埋点申请</title>
+    <link type="text/css" rel="stylesheet" href="/styles/apply.css"/>
+    <script type="text/javascript" src="/scripts/lib/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/scripts/apply.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <ul class="formList">
+        <li>
+            <label for="elementId">elementId: </label>
+            <input type="text" name="elementId" class="w200" id="elementId"/>
+        </li>
+        <li>
+            <label for="pageId">pageId: </label>
+            {{ if (options.length){ }}
+            <select id="pageId" name="pageId">
+                {{ options.forEach(function(option){ }}
+                <option value="{{= option+"" }}">{{= option }}</option>
+                {{ }) }}
+                {{ } }}
+            </select>
+        </li>
+        <li>
+            <label for="dotDesc">dotDesc: </label>
+            <input type="text" name="dotDesc" class="w400" id="dotDesc"/>
+        </li>
+        <li>
+            <input type="submit" value="submit" id="submit"/>
+        </li>
+    </ul>
+    <div id="note"></div>
+</div>
+
+</body>
+</html>
