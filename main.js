@@ -203,7 +203,7 @@ app.get("/dots",function(req,res){
                 if(!err){
                     collection.find().toArray(function(err,results){
                         if(!err){
-                            if(results.length>0){
+                            if(results.length){
                                 data.status=true;
                                 data.results=results;
                                 res.render('dots.ejs',data);
@@ -269,5 +269,56 @@ app.post('/deleteDot',function(req,res){
         })
     })
 
+});
+app.get('/records',function(req,res){
+    res.render('records');
+})
+app.post('/recordsOfDot',function(req,res){
+    var postData='';
+    req.on('data',function(data){
+        postData+=data;
+    })
+    req.on('end',function(){
+        var data=queryString.parse(postData);
+        mongoClient.connect('mongodb://localhost:27017/watching',function(err,db){
+            if(err){
+                db.close(true,function(err,result){
+                    if(!err){
+                        var answer={
+                            status:false,
+                            message:'This is the error of "connect to watching"!'
+                        }
+                        res.send(answer);
+                    }
+                })
+            }else{
+                db.collection('records',function(err,collection){
+                    if(err){
+                        var answer={
+                            status:false,
+                            message:'This is the error of "connect to records collection"!'
+                        }
+                        res.send(answer);
+                    }else{
+                        collection.find({dotId:data.dotId}).toArray(function(err,results){
+                            if(results.length){
+                                var answer={
+                                    status:true,
+                                    results:results[0]
+                                }
+                                res.send(answer);
+                            }else{
+                                var answer={
+                                    status:true,
+                                    message:'no records!'
+                                }
+                                res.send(answer);
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    })
 })
 app.listen("3000");
