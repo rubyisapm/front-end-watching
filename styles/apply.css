@@ -1,39 +1,7 @@
-body,div,li,ul,p,input,b,select{
-    margin:0;
-    padding:0
-}
-ul,li{
-    list-style:none;
-    list-style-position: outside;
-}
-.w100{
-    width:100px
-}
-.w200{
-    width:200px
-}
-.w300{
-    width:300px
-}
-.w400{
-    width:400px
-}
-body{
-    background:url(/images/background.jpg) 0 0 no-repeat;
-    font-family: "microsoft yahei";
-}
-input{
-    border:1px solid #ccc;
-    height:24px;
 
-}
-select{
-    height:24px;
-    border:1px solid #ccc
-}
 .formList li{
     padding-left:105px;
-    margin-bottom:20px;
+    margin-bottom:30px;
 }
 .formList li label{
     display:block;
@@ -41,17 +9,68 @@ select{
     width:100px;
     text-align:right;
     margin-left:-105px;
+    line-height:32px
+}
+#container{
+    width:800px;
+    height:410px;
+    margin:160px auto;
+    background:url(/images/balloon.png) 0 0 no-repeat;
+    padding:0 0 0 400px;
+    border:1px solid #51b7bb
 }
 #wrap{
-    margin:260px 0 0 100px;
+    width:600px;
+    background-color:#fff;
+    opacity:0.6;
+    padding:50px;
+    border-radius:30px;
 }
 #submit{
-    width:80px;
-    height:30px;
-    background-color:#6a9bff;
+    width:140px;
+    height:40px;
+    background-color:#51b7bb;
     cursor:pointer;
-    border:1px solid #0054ff
+    border-radius:10px;
+    font-size:18px;
+    color:#fff;
+    border:1px solid #469da0
+}
+#submit:hover{
+    background-color:#3f9295
 }
 #note{
-    color:green
+    color:#3d3d3d;
+    width: 500px;
+    height: 30px;
+    line-height:30px;
+    margin-left: 105px;
+    text-indent:36px;
+    position:relative;
+    border:1px solid #aadcde;
+    border-radius:5px;
+    background-color:#E4E4E4;
+    display:none
+}
+#note b{
+    width:22px;
+    height:22px;
+    background-image:url(/images/icons.png);
+    background-repeat:no-repeat;
+    position:absolute;
+    top:4px;
+    left:8px
+}
+.message_success{
+    background-position:0 -24px
+}
+.message_warn{
+    background-position:0 -1px
+}
+.message_error{
+    background-position:0 -47px
+}
+img{
+    margin:200px 0 0 20px;
+    float:left
 }

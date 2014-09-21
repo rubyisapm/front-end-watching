@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>埋点列表</title>
+		<link type="text/css" rel="stylesheet" href="/styles/base.css"/>
+		<link type="text/css" rel="stylesheet" href="/styles/dots.css"/>
+		<script type="text/javascript" src="/scripts/lib/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="/scripts/dots.js"></script>
+	</head>
+	<body>
+		<div id="wrap">
+			<table>
+				<colgroup>
+					<col width="100"/>
+					<col width="140"/>
+					<col width="200"/>
+					<col width="260"/>
+					<col/>
+				</colgroup>
+				<tr>
+					<th>dotId</th>
+					<th>elementId</th>
+					<th>pageId</th>
+					<th>dotDesc</th>
+					<th>operate</th>
+				</tr>
+				{{ if (status){ }}
+
+					{{ if(results.length){ }}
+						{{ results.forEach(function(result){ }}
+							<tr>
+									<td>{{= result.dotId }}</td>
+									<td>{{= result.elementId }}</td>
+									<td>{{= result.pageId }}</td>
+									<td>{{= result.dotDesc }}</td>
+									<td>
+										<a class="button mr10 delete">delete</a>
+										<a class="button">records</a>
+									</td>
+							</tr>
+						{{ }) }}
+					{{ }else{ }}
+						<td colspan="4">没有相应的埋点信息！</td>
+					{{ } }}
+
+				{{ }else{ }}
+					<tr>
+						<td>{{= message }}</td>
+					</tr>
+				{{ } }}
+			</table>
+		</div>
+	</body>
+</html>

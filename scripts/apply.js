@@ -6,24 +6,43 @@ $(function(){
         var elementId=$("#elementId").val();
         var pageId=$("#pageId").val();
         var dotDesc=$("#dotDesc").val();
+        if(elementId==""){
+            $("#note").html('<b class="message_error"></b>Please input elementId!').show();
+            return;
+        }
+        if(dotDesc==""){
+            $("#note").html('<b class="message_error"></b>Please input dotDesc!').show();
+            return;
+        }
         var param={
             elementId:elementId,
             pageId:pageId,
             dotDesc:dotDesc
         }
+
         $.ajax({
             url:"/applyForDot",
             method:"POST",
-            dataType:"html",
+            dataType:"json",
             contentType:"json",
             data:param,
             success:function(data){
-                $("#note").html(data);
+                var message="";
+                if(data.status=="warn"){
+                    message='<b class="message_warn"></b>'+data.message;
+                }else if(data.status){
+                    message='<b class="message_success"></b>'+data.message;
+                }else if(data.status){
+                    message='<b class="message_error"></b>'+data.message;
+                }
+                $("#note").html(message).show();
             },
             error:function(){
-                console.log("error");
+                console.log('This is the error of "ajax request"');
             }
         })
     })
-
+    $("input").on("focus",function(){
+        $("#note").hide();
+    })
 })

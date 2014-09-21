@@ -29,7 +29,17 @@ app.post("/applyForDot",function(req,res){
         req.on('end',function(){
             mongoClient.connect('mongodb://localhost:27017/watching',function(err,db){
                 db.collection('dots',function(err,collection){
-                    if(!err){
+                    if(err){
+                        db.close(true,function(err,result){
+                            if(!err){
+                                var answer={
+                                    status:false,
+                                    message:'This is the error of "connect to watching"!'
+                                }
+                                res.send(answer);
+                            }
+                        })
+                    }else{
                         var dataToInsert=queryString.parse(postData);
                         var token;
                         crypto.randomBytes(2, function(ex, buf) {
@@ -40,28 +50,41 @@ app.post("/applyForDot",function(req,res){
                                     if (!results.length) {
                                         collection.insert(dataToInsert, function (err, doc) {
                                             if (!err) {
-                                                res.send('The data you send was inserted to Dots.<br/>');
+                                                var answer={
+                                                    status:true,
+                                                    message:'The data you send was inserted to Dots.'
+                                                }
+                                                res.send(answer);
                                             } else {
-                                                res.send('This is the error of "insert data to Dots".<br/>');
+                                                var answer={
+                                                    status:false,
+                                                    message:'This is the error of "insert data to Dots".'
+                                                }
+                                                res.send(answer);
                                             }
                                         })
                                     } else {
-                                        res.send('This element has dotId yet, the dotId is: ' + results[0].dotId+'.<br/>');
+                                        var answer={
+                                            status:'warn',
+                                            message:'This element has dotId yet, the dotId is: ' + results[0].dotId+'.'
+                                        }
+                                        res.send(answer);
                                     }
                                 } else {
-                                    res.send('This is the error of "find data from the dots".<br/>');
+                                    var answer={
+                                        status:false,
+                                        message:'This is the error of "find data from the dots".'
+                                    }
+                                    res.send(answer);
                                 }
                             })
                         });
 
-                    }else{
-                        res.send('Can\'t connect to the Dots.');
                     }
 
                 })
             })
         });
-
 });
 app.post("/submitInfo",function(req,res){
         var postData='';
@@ -70,52 +93,181 @@ app.post("/submitInfo",function(req,res){
             postData=data;
         });
         req.on('end',function(){
-            res.writeHead(200,{
-                "Content-type":"text-html;charset=utf-8"
-            });
-            res.write('You submitted this: '+postData+", the data you send will be sent to mongoDB");
             mongoClient.connect("mongodb://localhost:27017/watching",function(err,db){
+                var dataToInsert=queryString.parse(postData),
+                    dotId=dataToInsert.dotId,
+                    time=new Date(),
+                    userId=dataToInsert.userId;
                 if(err){
-                    console.log(err);
-                }else{
-                    db.collection("records",function(err,collection){
+                    db.close(true,function(err,result){
                         if(!err){
-                            var dataToInsert=queryString.parse(postData),
-                                dotId=dataToInsert.dotId,
-                                time=new Date(),
-                                userId=dataToInsert.userId;
-                            /*Find the dot from the Records,if it isn't in the collection,insert a new data*/
+                            var answer={
+                                status:false,
+                                message:'This is an error of "connect to watching"!'
+                            }
+                            res.send(answer);
+                        }
+                    });
+                }else{
+                    /*first check out whether the dot exists or not, this just for test environment*/
+                    db.collection('dots',function(err,collection){
+                        if(!err){
                             collection.find({dotId:dotId}).toArray(function(err,results){
                                 if(!err){
-                                    if(!results.length){
-
-                                        /*can't find the dot, insert a new data*/
-                                        collection.insert({dotId:dotId,operations:[{time:{userId:userId,time:time}}]},function(err,doc){
+                                    if(results.length){
+                                        db.collection("records",function(err,collection){
                                             if(!err){
-                                                res.write('The data you sent was inserted to the Operations.<br/>');
-                                            }else{
-                                                res.write('This is the error of "insert data to the Operations".<br/>');
+
+                                                /*Find the dot from the Records,if it isn't in the collection,insert a new data*/
+                                                collection.find({dotId:dotId}).toArray(function(err,results){
+                                                    if(!err){
+                                                        if(!results.length){
+                                                            /*can't find the dot, insert a new data*/
+                                                            collection.insert({dotId:dotId,operations:[{time:{userId:userId,time:time}}]},function(err,doc){
+                                                                if(!err){
+                                                                    var answer={
+                                                                        status:true,
+                                                                        message:'The data you sent was inserted to the Operations.'
+                                                                    }
+                                                                    res.send(answer);
+                                                                }else{
+                                                                    var answer={
+                                                                        status:false,
+                                                                        message:'This is the error of "insert data to the Operations".'
+                                                                    }
+                                                                    res.send(answer);
+                                                                }
+                                                            })
+                                                        }else{
+                                                            /*find out the dot, update it*/
+                                                            collection.update({dotId:dotId},{$push:{operations:{time:{userId:userId,time:time}}}},function(err,result){
+                                                                if(!err){
+                                                                    var answer={
+                                                                        status:true,
+                                                                        message:'The data you sent was updated to the Operations.'
+                                                                    }
+                                                                    res.send(answer);
+                                                                }else{
+                                                                    var answer={
+                                                                        status:false,
+                                                                        message:'This is the error of "update data to the Operations".'
+                                                                    }
+                                                                    res.send(answer);
+                                                                }
+                                                            })
+                                                        }
+                                                    }else{
+                                                        var answer={
+                                                            status:false,
+                                                            message:'This is the error of "find dot from the Records".'
+                                                        }
+                                                        res.send(answer);
+                                                    }
+                                                });
                                             }
                                         })
                                     }else{
-                                        /*find out the dot, update it*/
-                                        collection.update({dotId:dotId},{$push:{operations:{time:{userId:userId,time:time}}}},function(err,result){
-                                            if(!err){
-                                                res.write('The data you sent was updated to the Operations.<br/>');
-                                            }else{
-                                                res.write('This is the error of "update data to the Operations".<br/>');
-                                            }
-                                        })
+                                        var answer={
+                                            status:false,
+                                            message:'The dot you operated has not in the db yet, please apply for dotId first!'
+                                        }
+                                        res.send(answer);
                                     }
-                                }else{
-                                    console.log('This is the error of "find dot from the Records".<br/>');
                                 }
-                            });
+                            })
+                        }else{
+                            var answer={
+                                status:false,
+                                message:'This is the error of "check out whether the dot exists or not"!'
+                            }
+                            res.send(answer);
                         }
                     })
                 }
             })
-            res.end();
         });
+});
+app.get("/dots",function(req,res){
+    var data={};
+    mongoClient.connect("mongodb://localhost:27017/watching",function(err,db){
+        if(err){
+            db.close(true,function(err,result){
+                if(!err){
+                    data.status=false,
+                    data.message='This is the error of "connect to watching"!';
+                    res.render('dots.ejs',data);
+                }
+            })
+        }else{
+            db.collection('dots',function(err,collection){
+                if(!err){
+                    collection.find().toArray(function(err,results){
+                        if(!err){
+                            if(results.length>0){
+                                data.status=true;
+                                data.results=results;
+                                res.render('dots.ejs',data);
+                            }else{
+                                data.status=true;
+                                data.results=results;
+                                res.render('dots.ejs',data);
+                            }
+                        }else{
+                            data.status=false;
+                            data.message='This is the error of "change results to Array"!';
+                            res.render('dots.ejs',data);
+                        }
+                    })
+                }else{
+                    data.status=false;
+                    data.message='This is the error of "use the collection dots"!';
+                    res.render('dots.ejs',data);
+                }
+            })
+        }
+    })
+
+});
+app.post('/deleteDot',function(req,res){
+    var postData="";
+    req.on('data',function(data){
+        postData+=data;
+    });
+    req.on('end',function(){
+        var dataToDelete=queryString.parse(postData);
+
+        mongoClient.connect('mongodb://localhost:27017/watching',function(err,db){
+            if(err){
+                db.close(true,function(err,result){
+                    if(!err){
+                        var answer={
+                            status:false,
+                            message:'This is the error of "connect to watching"!'
+                        }
+                        res.send(answer);
+                    }
+                })
+            }else{
+                db.collection("dots",function(err,collection){
+                    collection.remove({dotId:dataToDelete.dotId},function(err,doc){
+                        if(!err){
+                            var answer={
+                                status:true,
+                                message:'The dot was deleted!'
+                            }
+                            res.send(answer);
+                        }else{
+                            var answer={
+                                status:false,
+                                message:'This is the error of "delete the dot"!'
+                            }
+                            res.send(answer);
+                        }
+                    })
+                })
+            }
+        })
+    })
+
 })
 app.listen("3000");
