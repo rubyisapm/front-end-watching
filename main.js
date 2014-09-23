@@ -9,15 +9,30 @@ var mongoClient=mongodb.MongoClient;
 var Db=mongodb.Db;
 var crypto=require('crypto');
 var ejs=require("ejs");
+var router=express.Router();
 ejs.open = '{{';
 ejs.close = '}}';
 app.set("view engine","ejs");
 app.use('/images',express.static(__dirname+'/images'));
 app.use('/styles',express.static(__dirname+'/styles'));
 app.use('/scripts',express.static(__dirname+'/scripts'));
+router.param('code', function (req, res, next, id) {
+    console.log('CALLED ONLY ONCE');
+    next();
+})
+router.use('/ttt/:code',function(req, res, next) {
+    res.send('ttt'+req.params.code);
+
+    next();
+});
+router.use(function(req, res, next) {
+    res.send('Hello World');
+    res.end();
+});
 app.get("/apply",function(req,res){
     res.render("apply.ejs",{options:["首页","产品介绍页","帮助中心"]});
 });
+
 app.get("/submit",function(req,res){
     res.render('submit.ejs');
 });
@@ -251,11 +266,22 @@ app.post('/deleteDot',function(req,res){
                 db.collection("dots",function(err,collection){
                     collection.remove({dotId:dataToDelete.dotId},function(err,doc){
                         if(!err){
-                            var answer={
-                                status:true,
-                                message:'The dot was deleted!'
-                            }
-                            res.send(answer);
+                            db.collection('records',function(err,collection){
+                                collection.remove({dotId:dataToDelete.dotId},function(err,doc){
+                                    if(!err){
+                                        var answer={
+                                            status:true,
+                                            message:'The dot and the records concerned was deleted!'
+                                        }
+                                        res.send(answer);
+                                    }else{
+                                        var answer={
+                                            status:false,
+                                            message:'This is the error of "delete the records concerned"!'
+                                        }
+                                    }
+                                })
+                            })
                         }else{
                             var answer={
                                 status:false,
@@ -273,9 +299,10 @@ app.post('/deleteDot',function(req,res){
 app.get('/records',function(req,res){
     res.render('records');
 })
-app.post('/recordsOfDot',function(req,res){
+app.get('/recordsOfDot',function(req,res){
     var postData='';
-    req.on('data',function(data){
+
+   /* req.on('data',function(data){
         postData+=data;
     })
     req.on('end',function(){
@@ -319,6 +346,9 @@ app.post('/recordsOfDot',function(req,res){
                 })
             }
         })
-    })
-})
+    })*/
+});
+app.get('/test?code=:code',function(req,res){
+    res.send(req.params.code);
+});
 app.listen("3000");

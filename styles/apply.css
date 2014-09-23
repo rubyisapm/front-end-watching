@@ -1,4 +1,4 @@
-
+@import "./module/nav.css";
 .formList li{
     padding-left:105px;
     margin-bottom:30px;
@@ -12,9 +12,9 @@
     line-height:32px
 }
 #container{
-    width:800px;
+    width:798px;
     height:410px;
-    margin:160px auto;
+    margin:50px auto;
     background:url(/images/balloon.png) 0 0 no-repeat;
     padding:0 0 0 400px;
     border:1px solid #51b7bb

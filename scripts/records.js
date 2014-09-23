@@ -1,6 +1,7 @@
 /**
  * Created by ruby on 2014/9/21.
  */
+/*
 $(function(){
     var param={
         dotId:window.location.search.substring(5)
@@ -36,3 +37,4 @@ $(function(){
     })
 })
 
+*/
