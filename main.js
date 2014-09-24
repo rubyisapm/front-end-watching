@@ -9,26 +9,12 @@ var mongoClient=mongodb.MongoClient;
 var Db=mongodb.Db;
 var crypto=require('crypto');
 var ejs=require("ejs");
-var router=express.Router();
 ejs.open = '{{';
 ejs.close = '}}';
 app.set("view engine","ejs");
 app.use('/images',express.static(__dirname+'/images'));
 app.use('/styles',express.static(__dirname+'/styles'));
 app.use('/scripts',express.static(__dirname+'/scripts'));
-router.param('code', function (req, res, next, id) {
-    console.log('CALLED ONLY ONCE');
-    next();
-})
-router.use('/ttt/:code',function(req, res, next) {
-    res.send('ttt'+req.params.code);
-
-    next();
-});
-router.use(function(req, res, next) {
-    res.send('Hello World');
-    res.end();
-});
 app.get("/apply",function(req,res){
     res.render("apply.ejs",{options:["首页","产品介绍页","帮助中心"]});
 });
@@ -138,7 +124,7 @@ app.post("/submitInfo",function(req,res){
                                                     if(!err){
                                                         if(!results.length){
                                                             /*can't find the dot, insert a new data*/
-                                                            collection.insert({dotId:dotId,operations:[{time:{userId:userId,time:time}}]},function(err,doc){
+                                                            collection.insert({dotId:dotId,operations:[{userId:userId,time:time}]},function(err,doc){
                                                                 if(!err){
                                                                     var answer={
                                                                         status:true,
@@ -155,7 +141,7 @@ app.post("/submitInfo",function(req,res){
                                                             })
                                                         }else{
                                                             /*find out the dot, update it*/
-                                                            collection.update({dotId:dotId},{$push:{operations:{time:{userId:userId,time:time}}}},function(err,result){
+                                                            collection.update({dotId:dotId},{$push:{operations:{userId:userId,time:time}}},function(err,result){
                                                                 if(!err){
                                                                     var answer={
                                                                         status:true,
@@ -223,8 +209,8 @@ app.get("/dots",function(req,res){
                                 data.results=results;
                                 res.render('dots.ejs',data);
                             }else{
-                                data.status=true;
-                                data.results=results;
+                                data.status=false;
+                                data.message='no dot!';
                                 res.render('dots.ejs',data);
                             }
                         }else{
@@ -297,58 +283,44 @@ app.post('/deleteDot',function(req,res){
 
 });
 app.get('/records',function(req,res){
-    res.render('records');
-})
-app.get('/recordsOfDot',function(req,res){
-    var postData='';
-
-   /* req.on('data',function(data){
-        postData+=data;
-    })
-    req.on('end',function(){
-        var data=queryString.parse(postData);
+    console.log(req._parsedUrl.search)
+    if(/^\?dotId=.{4}$/.test(req._parsedUrl.search)){
+        var dotId=req._parsedUrl.search.substring(7);
+        console.log(dotId)
+        var data={};
         mongoClient.connect('mongodb://localhost:27017/watching',function(err,db){
             if(err){
                 db.close(true,function(err,result){
                     if(!err){
-                        var answer={
-                            status:false,
-                            message:'This is the error of "connect to watching"!'
-                        }
-                        res.send(answer);
+                        data.status=false,
+                            data.message='This is the error of "connect to watching"!';
+                        res.render('records',data);
                     }
                 })
             }else{
                 db.collection('records',function(err,collection){
                     if(err){
-                        var answer={
-                            status:false,
-                            message:'This is the error of "connect to records collection"!'
-                        }
-                        res.send(answer);
+                        data.status=false;
+                        data.message='This is the error of "connect to records collection"!';
+                        res.render('records',data);
                     }else{
-                        collection.find({dotId:data.dotId}).toArray(function(err,results){
+                        collection.find({dotId:dotId}).toArray(function(err,results){
                             if(results.length){
-                                var answer={
-                                    status:true,
-                                    results:results[0]
-                                }
-                                res.send(answer);
+                                data.status=true;
+                                data.results=results[0];
+                                res.render('records',data);
                             }else{
-                                var answer={
-                                    status:true,
-                                    message:'no records!'
-                                }
-                                res.send(answer);
+                                data.status=true;
+                                data.message='no records!';
+                                res.render('records',data);
                             }
                         })
                     }
                 })
             }
         })
-    })*/
+    }
+
 });
-app.get('/test?code=:code',function(req,res){
-    res.send(req.params.code);
-});
+
 app.listen("3000");
