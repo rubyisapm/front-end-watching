@@ -18,7 +18,7 @@ app.use('/scripts',express.static(__dirname+'/scripts'));
 app.get("/apply",function(req,res){
     res.render("apply.ejs",{options:["首页","产品介绍页","帮助中心"]});
 });
-
+dd;
 app.get("/submit",function(req,res){
     res.render('submit.ejs');
 });
