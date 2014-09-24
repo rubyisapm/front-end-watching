@@ -24,7 +24,7 @@
 					<th>dotDesc</th>
 					<th>operate</th>
 				</tr>
-				{{ if (status && results){ }}
+				{{ if (status && typeof results!='undefined'){ }}
 						{{ results.forEach(function(result){ }}
 							<tr>
 									<td>{{= result.dotId }}</td>
@@ -33,7 +33,7 @@
 									<td>{{= result.dotDesc }}</td>
 									<td>
 										<a class="button mr10 delete">delete</a>
-										<a href='/records/{{= result.dotId }}' target="_blank" class="button">records</a>
+										<a href='/records?dotId={{= result.dotId }}' target="_blank" class="button">records</a>
 									</td>
 							</tr>
 						{{ }) }}
