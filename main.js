@@ -22,7 +22,6 @@ router.param('code', function (req, res, next, id) {
 })
 router.use('/ttt/:code',function(req, res, next) {
     res.send('ttt'+req.params.code);
-
     next();
 });
 router.use(function(req, res, next) {

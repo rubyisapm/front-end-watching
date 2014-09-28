@@ -1,0 +1,25 @@
+{
+  "name": "front-end-watching",
+  "version": "0.0.0",
+  "description": "front-end-watching\r =========",
+  "main": "main.js",
+  "dependencies": {
+    "express": "~4.9.2",
+    "ejs": "~1.0.0",
+    "mongodb": "~1.4.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/skysunshine99/demo_node.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skysunshine99/demo_node/issues"
+  },
+  "homepage": "https://github.com/skysunshine99/demo_node"
+}
