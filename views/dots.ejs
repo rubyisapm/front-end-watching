@@ -24,9 +24,7 @@
 					<th>dotDesc</th>
 					<th>operate</th>
 				</tr>
-				{{ if (status){ }}
-
-					{{ if(results.length){ }}
+				{{ if (status && typeof results!='undefined'){ }}
 						{{ results.forEach(function(result){ }}
 							<tr>
 									<td>{{= result.dotId }}</td>
@@ -35,14 +33,10 @@
 									<td>{{= result.dotDesc }}</td>
 									<td>
 										<a class="button mr10 delete">delete</a>
-										<a href='/records?dot={{= result.dotId }}' target="_blank" class="button">records</a>
+										<a href='/records?dotId={{= result.dotId }}' target="_blank" class="button">records</a>
 									</td>
 							</tr>
 						{{ }) }}
-					{{ }else{ }}
-						<td colspan="4">没有相应的埋点信息！</td>
-					{{ } }}
-
 				{{ }else{ }}
 					<tr>
 						<td>{{= message }}</td>

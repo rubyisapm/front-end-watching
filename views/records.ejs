@@ -12,12 +12,27 @@
 			<table>
 				<colgroup>
 					<col width="260"/>
+					<col width="260"/>
 					<col/>
 				</colgroup>
 				<tr>
+					<th>dotId</th>
 					<th>userId</th>
 					<th>time</th>
 				</tr>
+				{{ if(status && typeof results!='undefined'){ }}
+					{{ results.operations.forEach(function(operation){ }}
+						<tr>
+							<td>{{= results.dotId }}</td>
+							<td>{{= operation.userId }}</td>
+							<td>{{= operation.time }}</td>
+						</tr>
+					{{ }) }}
+				{{ }else{ }}
+					<tr>
+						<td colspan="3">{{= message }}</td>
+					</tr>
+				{{ } }}
 			</table>
 		</div>
 	</body>
