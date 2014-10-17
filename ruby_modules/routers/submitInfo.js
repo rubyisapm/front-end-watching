@@ -16,8 +16,14 @@ router.use(function(req,res){
         mongoClient.connect("mongodb://localhost:27017/watching",function(err,db){
             var dataToInsert=queryString.parse(postData),
                 dotId=dataToInsert.dotId,
-                time=new Date(),
-                userId=dataToInsert.userId;
+                userId=dataToInsert.userId,
+                date=new Date(),
+                month=date.getMonth()+ 1,
+                minutes=date.getMinutes()<10 ? "0"+date.getMinutes() : date.getMinutes(),
+                seconds=date.getSeconds()<10 ? "0"+date.getSeconds() : date.getSeconds(),
+                simpleDate=date.getFullYear()+"-"+month+"-"+date.getDate()+" "+date.getHours()+":"+minutes+":"+seconds,
+                strTime=Math.round(date.getTime()/1000);
+
             if(err){
                 db.close(true,function(err,result){
                     if(!err){
@@ -43,7 +49,7 @@ router.use(function(req,res){
                                                 if(!err){
                                                     if(!results.length){
                                                         /*can't find the dot, insert a new data*/
-                                                        collection.insert({dotId:dotId,operations:[{userId:userId,time:time}]},function(err,doc){
+                                                        collection.insert({dotId:dotId,operations:[{userId:userId,time:simpleDate,strTime:strTime}]},function(err,doc){
                                                             if(!err){
                                                                 var answer={
                                                                     status:true,
@@ -60,7 +66,7 @@ router.use(function(req,res){
                                                         })
                                                     }else{
                                                         /*find out the dot, update it*/
-                                                        collection.update({dotId:dotId},{$push:{operations:{userId:userId,time:time}}},function(err,result){
+                                                        collection.update({dotId:dotId},{$push:{operations:{userId:userId,time:simpleDate,strTime:strTime}}},function(err,result){
                                                             if(!err){
                                                                 var answer={
                                                                     status:true,

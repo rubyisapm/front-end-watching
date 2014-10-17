@@ -31,8 +31,11 @@ router.use(function(req,res){
                     var token;
                     var date=new Date();
                     var month=date.getMonth()+1;
-                    var simpleDate=date.getFullYear()+"/"+month+"/"+date.getDate()+"-"+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+                    var minutes=date.getMinutes()<10 ? "0"+date.getMinutes() : date.getMinutes();
+                    var seconds=date.getSeconds()<10 ? "0"+date.getSeconds() : date.getSeconds();
+                    var simpleDate=date.getFullYear()+"-"+month+"-"+date.getDate()+" "+date.getHours()+":"+minutes+":"+seconds;
                     dataToInsert.addTime=simpleDate;
+                    dataToInsert.addTimeStr=Math.round(date.getTime()/1000);
                     crypto.randomBytes(2, function(ex, buf) {
                         token = buf.toString('hex');
                         dataToInsert.dotId=token;
