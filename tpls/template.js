@@ -6,17 +6,25 @@ function template(tpl,data){
 }
 template.dots=function(data){
     var str='';
-
-    for(var i in data){
-        str+='<tr>'+
-                '<td>'+data[i].dotId+'</td>'+
-                '<td>'+data[i].elementId+'</td>'+
-                '<td>'+data[i].pageId+'</td>'+
-                '<td>'+data[i].addTime+'</td>'+
-                '<td>'+data[i].dotDesc+'</td>'+
-                '<td>'+
+    if(data.results){
+        var results=data.results;
+        for(var i in results){
+            str+='<tr>'+
+                    '<td>'+results[i].dotId+'</td>'+
+                    '<td>'+results[i].elementId+'</td>'+
+                    '<td>'+results[i].pageId+'</td>'+
+                    '<td>'+results[i].addTime+'</td>'+
+                    '<td>'+results[i].dotDesc+'</td>'+
+                    '<td>'+
                     '<a class="button mr10 delete">delete</a>'+
-                    '<a href="/records?dotId='+data[i].dotId+'" target="_blank" class="button">records</a>'+
+                    '<a href="/records?dotId='+results[i].dotId+'" target="_blank" class="button">records</a>'+
+                    '</td>'+
+                '</tr>';
+        }
+    }else{
+        str+='<tr>'+
+                '<td colspan="6">'+
+                    data.message+
                 '</td>'+
             '</tr>';
     }

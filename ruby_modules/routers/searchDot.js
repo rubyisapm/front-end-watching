@@ -36,7 +36,7 @@ router.use(function(req,res){
                                 answer.results=results;
                             }else{
                                 answer.status=true;
-                                answer.message='no dots';
+                                answer.message='no visible dots!';
                             }
                             res.send(answer);
                         })
