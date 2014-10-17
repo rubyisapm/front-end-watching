@@ -17,6 +17,7 @@ app.set("view engine","ejs");
 app.use('/images',express.static(__dirname+'/images'));
 app.use('/styles',express.static(__dirname+'/styles'));
 app.use('/scripts',express.static(__dirname+'/scripts'));
+app.use('/tpls',express.static(__dirname+'/tpls'));
 
 app.use("/apply",require('./ruby_modules/routers/apply').router);
 app.use("/submit",require('./ruby_modules/routers/submit').router);
@@ -25,6 +26,6 @@ app.use("/submitInfo",require('./ruby_modules/routers/submitInfo').router);
 app.use("/dots",require('./ruby_modules/routers/dots').router);
 app.use('/deleteDot',require('./ruby_modules/routers/deleteDot').router);
 app.use('/records',require('./ruby_modules/routers/records').router);
-
+app.use('/searchDot',require('./ruby_modules/routers/searchDot').router);
 
 app.listen("3000");

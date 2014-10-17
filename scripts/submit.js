@@ -19,7 +19,7 @@ $(function(){
 
         $.ajax({
             url:"/submitInfo",
-            method:"POST",
+            type:"POST",
             dataType:"json",
             contentType:"json",
             data:param,

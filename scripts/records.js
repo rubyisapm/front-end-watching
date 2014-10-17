@@ -8,7 +8,7 @@ $(function(){
     }
     $.ajax({
         url:'/recordsOfDot',
-        method:'POST',
+        type:'POST',
         dataType:'json',
         contentType:'json',
         data:param,

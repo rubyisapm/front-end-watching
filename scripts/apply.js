@@ -22,7 +22,7 @@ $(function(){
 
         $.ajax({
             url:"/applyForDot",
-            method:"POST",
+            type:"POST",
             dataType:"json",
             contentType:"json",
             data:param,

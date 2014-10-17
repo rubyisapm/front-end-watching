@@ -4,42 +4,69 @@
 		<title>埋点列表</title>
 		<link type="text/css" rel="stylesheet" href="/styles/base.css"/>
 		<link type="text/css" rel="stylesheet" href="/styles/dots.css"/>
-		<script type="text/javascript" src="/scripts/lib/jquery-2.1.1.min.js"></script>
-		<script type="text/javascript" src="/scripts/dots.js"></script>
+		<script src="/scripts/lib/jquery-2.1.1.min.js"></script>
+        <script src="/tpls/template.js"></script>
+        <script src="/scripts/dots.js"></script>
 	</head>
 	<body>
+        <div class="filter">
+            <span class="mr10">
+                <label>elementId:</label>
+                <input type="text" id="elementId"/>
+            </span>
+            <span class="mr10">
+                <label>pageId:</label>
+                <select id="pageId">
+                    <option value="0">请选择</option>
+                    {{ pageIds.forEach(function(pageId){ }}
+                    <option value="{{= pageId }}">{{= pageId }}</option>
+                    {{ }) }}
+                </select>
+            </span>
+            <span class="mr10">
+                <label>addTime:</label>
+                <input type="text" class="w200" id="addTime"/>
+            </span>
+            <a class="button" id="searchBtn">查找</a>
+        </div>
 		<div id="wrap">
-			<table>
+			<table id="dots">
 				<colgroup>
 					<col width="100"/>
 					<col width="140"/>
+					<col width="140"/>
 					<col width="200"/>
-					<col width="260"/>
+					<col width="200"/>
 					<col/>
 				</colgroup>
-				<tr>
-					<th>dotId</th>
-					<th>elementId</th>
-					<th>pageId</th>
-					<th>dotDesc</th>
-					<th>operate</th>
-				</tr>
-				{{ if (status && typeof results!='undefined'){ }}
-						{{ results.forEach(function(result){ }}
+				<thead>
+                    <tr>
+                        <th>dotId</th>
+                        <th>elementId</th>
+                        <th>pageId</th>
+                        <th>addTime</th>
+                        <th>dotDesc</th>
+                        <th>operate</th>
+                    </tr>
+
+				</thead>
+				{{ if (data.status && typeof data.results!='undefined'){ }}
+						{{ data.results.forEach(function(result){ }}
 							<tr>
-									<td>{{= result.dotId }}</td>
-									<td>{{= result.elementId }}</td>
-									<td>{{= result.pageId }}</td>
-									<td>{{= result.dotDesc }}</td>
-									<td>
-										<a class="button mr10 delete">delete</a>
-										<a href='/records?dotId={{= result.dotId }}' target="_blank" class="button">records</a>
-									</td>
+                                <td>{{= result.dotId }}</td>
+                                <td>{{= result.elementId }}</td>
+                                <td>{{= result.pageId }}</td>
+                                <td>{{= result.addTime }}</td>
+                                <td>{{= result.dotDesc }}</td>
+                                <td>
+                                    <a class="button mr10 delete">delete</a>
+                                    <a href='/records?dotId={{= result.dotId }}' target="_blank" class="button">records</a>
+                                </td>
 							</tr>
 						{{ }) }}
 				{{ }else{ }}
 					<tr>
-						<td>{{= message }}</td>
+						<td>{{= data.message }}</td>
 					</tr>
 				{{ } }}
 			</table>
